@@ -1,9 +1,83 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const employeeModel = require('../model/employee.js');
 
 /* GET employee listing. */
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+router.get('/', async function(req, res, next) {
+    const employees = await employeeModel.find({});
+    try{
+        const employees = await employeeModel.find();
+        if (employees.length > 0) {
+            res.status(200).send(employees);
+
+        } else {
+            return res.status(400).send({
+                message: "no employees found"
+            });
+        }
+    }catch(err){
+        res.status(500).send(err);
+    }
 });
 
+router.post('/employee', async (req, res) => {
+    console.log(req.body)
+    if(!req.body) {
+        return res.status(400).send({
+            message: "invalid employee"
+        });
+    }
+    const employee = new employeeModel(req.body);
+    try{
+        await employee.save();
+        res.status(200).send("employee added")
+    }catch (err){
+        console.log("Error occured " + err)
+        res.status(500).send(err);
+    }
+});
+
+//get employee by id
+router.get('/employee/:employeeId', async (req, res) => {
+    // Validate request
+    if(!req.params.employeeId) {
+        return res.status(400).send({
+            message: "employee content can not be empty"
+        });
+    }
+
+    const employee = await employeeModel.findById(req.params.employeeId);
+    try{
+        res.send(employee);
+    }catch(err){
+        res.status(500).send(err);
+    }
+
+});
+
+//TODO - Update a employee with employeeId
+router.put("/employee/:employeeId", async(req, res) => {
+
+    try{
+        const updatedEmployee = await employeeModel.findByIdAndUpdate(req.params.employeeId, req.body)
+        const employee = await updatedEmployee.save()
+        res.send(employee)
+    }catch(err){
+        res.status(500).send(err);
+    }
+});
+
+
+//TODO - Delete a employee with employeeId
+router.delete("/employee/:employeeId", async(req, res) => {
+    try{
+        const employee = await employeeModel.findByIdAndDelete(req.params.employeeId)
+        if(!employee){
+            res.status(404).send("No item found")
+        }
+        res.status(200).send()
+    }catch(err){
+        res.status(500).send(err);
+    }
+});
 module.exports = router;

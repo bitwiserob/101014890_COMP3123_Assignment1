@@ -2,7 +2,6 @@
 
 ## TODO
 
-* employee routes
 * user routes
 * validation
 
@@ -10,5 +9,7 @@
 
 
 * Models
+* employee routes
+
 
 
