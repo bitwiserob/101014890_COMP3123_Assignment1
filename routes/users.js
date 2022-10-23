@@ -32,11 +32,13 @@ router.post('/user/login', async (req,res) => {
         const user_account= await userModel.findOne({"email" : req.body.email})
 
         if (user_account) {
-            return res.json({
-                status: 200,
-                username: user_account.username,
-                message: "User signed in"
-            })
+            if(user_account.password == req.body.password){
+                return res.json({
+                    status: 200,
+                    username: user_account.username,
+                    message: "User signed in"
+                })
+            }
         }
 
         else {
