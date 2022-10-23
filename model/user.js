@@ -17,7 +17,6 @@ const user = new mongoose.Schema({
     },
     password:{
         type: String,
-        unique: true,
         maxLength: 50,
         required: [true, "missing password"]
     }
