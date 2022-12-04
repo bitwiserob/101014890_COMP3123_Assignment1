@@ -3,18 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
-import cors from "cors";
+
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/users');
 const employeeRouter = require('./routes/employee');
 const DB_URL = "mongodb+srv://admin:1234@~101014890.ceawi2z.mongodb.net/101014890?retryWrites=true&w=majority";
 mongoose.Promise = global.Promise;
 const app = express();
-app.use(
-  cors({
-    origin: "*",
-  })
-)
 
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
