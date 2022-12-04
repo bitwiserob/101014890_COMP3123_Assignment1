@@ -16,6 +16,12 @@ app.use(
   })
 )
 
+var allowCrossDomain = ( req, res, next) =>{
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+}
+
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -31,6 +37,7 @@ mongoose.connect(DB_URL, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(allowCrossDomain)
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
