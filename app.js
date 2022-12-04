@@ -10,6 +10,12 @@ const DB_URL = "mongodb+srv://admin:1234@~101014890.ceawi2z.mongodb.net/10101489
 mongoose.Promise = global.Promise;
 const app = express();
 
+var allowCrossDomain = ( req, res, next) =>{
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+}
+
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -19,14 +25,6 @@ mongoose.connect(DB_URL, {
   console.log('Could not connect to the database. Exiting now...', err);
   process.exit();
 });
-
-
-var allowCrossDomain = ( req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-}
-
 
 
 
