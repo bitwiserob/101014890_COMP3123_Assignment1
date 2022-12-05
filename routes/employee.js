@@ -71,9 +71,9 @@ router.put("/employee/:employeeId", async(req, res) => {
 });
 
 
-router.delete("/employee", async(req, res) => {
+router.delete("/employee/:employeeId", async(req, res) => {
     try{
-        const employee = await employeeModel.findByIdAndDelete(req.query.eid)
+        const employee = await employeeModel.findByIdAndDelete(req.params.employeeId)
         if(!employee){
             res.status(404).send("No item found")
         }else{
